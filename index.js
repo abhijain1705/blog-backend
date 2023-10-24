@@ -5,12 +5,10 @@ const userRoutes = require("./routes/userRoutes");
 const commentRoutes = require("./routes/commentRoutes");
 const blogRoutes = require("./routes/blogRoutes");
 require("dotenv").config();
-const cors = require("cors");
 const app = express();
 
 // parse application/json
 app.use(bodyParser.json());
-app.use(cors());
 // Enable All CORS Requests (for demonstration purposes)
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*"); // Allow requests from any origin
