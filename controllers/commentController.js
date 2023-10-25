@@ -83,6 +83,7 @@ function newComment(req, res) {
   // userid = {id: "dfsrfef"}; this id will refer to blog id.
 
   jsonwebtoken.verify(req.token, process.env.SECRETKEY, (error, result) => {
+    console.log(error);
     if (error !== null) {
       return res.status(404).send({ message: "Token verification failed." });
     }
