@@ -37,9 +37,9 @@ function getBlogSpecificComments(req, res) {
 function replyComment(req, res) {
   const body = req.body;
   const commentId = req.query;
-
+  console.log(req.token);
   jsonwebtoken.verify(req.token, process.env.SECRETKEY, (error, result) => {
-    if (error == null) {
+    if (error !== null) {
       return res.status(404).send({ message: "Token verification failed." });
     }
     if (result !== undefined) {
@@ -81,32 +81,45 @@ function newComment(req, res) {
   const blogId = req.query;
   console.log(body, blogId);
   // userid = {id: "dfsrfef"}; this id will refer to blog id.
-  if (
-    Object.hasOwnProperty(blogId, "blogId") === false &&
-    blogId.blogId.length === 0
-  ) {
-    return res.status(404).send({
-      message: "You forgot to tell which blog's comment you are writing.",
-    });
-  }
 
-  if (isEmpty(body)) {
-    return res
-      .status(404)
-      .send({ message: "You forgot to tell what comment you are writing." });
-  }
+  jsonwebtoken.verify(req.token, process.env.SECRETKEY, (error, result) => {
+    if (error !== null) {
+      return res.status(404).send({ message: "Token verification failed." });
+    }
 
-  const newComment = myCommentModel({ blogId: blogId.blogId, ...body });
-  newComment
-    .save()
-    .then(() => {
-      return res.status(201).send({ message: "Successfully stored comment" });
-    })
-    .catch((error) => {
-      console.log(error);
-      return res
-        .status(500)
-        .send({ message: "Server failed to store your comment" });
-    });
+    if (result !== undefined) {
+      if (
+        Object.hasOwnProperty(blogId, "blogId") === false &&
+        blogId.blogId.length === 0
+      ) {
+        return res.status(404).send({
+          message: "You forgot to tell which blog's comment you are writing.",
+        });
+      }
+
+      if (isEmpty(body)) {
+        return res.status(404).send({
+          message: "You forgot to tell what comment you are writing.",
+        });
+      }
+
+      const newComment = myCommentModel({ blogId: blogId.blogId, ...body });
+      newComment
+        .save()
+        .then(() => {
+          return res
+            .status(201)
+            .send({ message: "Successfully stored comment" });
+        })
+        .catch((error) => {
+          console.log(error);
+          return res
+            .status(500)
+            .send({ message: "Server failed to store your comment" });
+        });
+    } else {
+      return res.status(404).send({ message: "Token verification failed." });
+    }
+  });
 }
 module.exports = { newComment, replyComment, getBlogSpecificComments };
