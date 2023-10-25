@@ -12,7 +12,7 @@ cloudinary.config({
 function fetchSingleBlog(req, res) {
   const blogId = req.query;
   // userid = {id: "dfsrfef"}; this id will refer to blog id.
-  if (Object.hasOwn(blogId, "id") === false && blogId.id.length === 0) {
+  if (Object.hasOwnProperty(blogId, "id") === false && blogId.id.length === 0) {
     return res
       .status(404)
       .send({ message: "You forgot to tell which user's blog you want" });
@@ -35,7 +35,7 @@ function fetchSingleBlog(req, res) {
 function userSpecificBlogs(req, res) {
   const userid = req.query;
   // userid = {id: "dfsrfef"}; this id will refer to user id.
-  if (Object.hasOwn(userid, "id") === false && userid.id.length === 0) {
+  if (Object.hasOwnProperty(userid, "id") === false && userid.id.length === 0) {
     return res
       .status(404)
       .send({ message: "You forgot to tell which user's blog you want" });
@@ -73,7 +73,7 @@ function getAllBlogs(req, res) {
 function deleteBlog(req, res) {
   const blogId = req.query;
   // blogId = {id: "dfsrfef"};
-  if (Object.hasOwn(blogId, "id") === false && blogId.id.length === 0) {
+  if (Object.hasOwnProperty(blogId, "id") === false && blogId.id.length === 0) {
     return res
       .status(404)
       .send({ message: "You forgot to tell which blog to delete." });
@@ -97,7 +97,7 @@ function updateBlog(req, res) {
   console.log(body);
   const blogId = req.query;
   // blogId = {id: "dfsrfef"};
-  if (Object.hasOwn(blogId, "id") === false && blogId.id.length === 0) {
+  if (Object.hasOwnProperty(blogId, "id") === false && blogId.id.length === 0) {
     return res
       .status(404)
       .send({ message: "You forgot to tell which blog to update." });

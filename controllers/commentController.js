@@ -10,7 +10,10 @@ const jsonwebtoken = require("jsonwebtoken");
 
 function getBlogSpecificComments(req, res) {
   const blogId = req.query;
-  if (Object.hasOwn(blogId, "blogId") === false && blogId.blogId.length === 0) {
+  if (
+    Object.hasOwnProperty(blogId, "blogId") === false &&
+    blogId.blogId.length === 0
+  ) {
     return res.status(404).send({
       message: "You forgot to tell which blog's comment you want to fetch.",
     });
@@ -42,7 +45,7 @@ function replyComment(req, res) {
     if (result !== undefined) {
       // userid = {id: "dfsrfef"}; this id will refer to blog id.
       if (
-        Object.hasOwn(commentId, "commentId") === false &&
+        Object.hasOwnProperty(commentId, "commentId") === false &&
         commentId.commentId.length === 0
       ) {
         return res.status(404).send({
@@ -78,7 +81,10 @@ function newComment(req, res) {
   const blogId = req.query;
   console.log(body, blogId);
   // userid = {id: "dfsrfef"}; this id will refer to blog id.
-  if (Object.hasOwn(blogId, "blogId") === false && blogId.blogId.length === 0) {
+  if (
+    Object.hasOwnProperty(blogId, "blogId") === false &&
+    blogId.blogId.length === 0
+  ) {
     return res.status(404).send({
       message: "You forgot to tell which blog's comment you are writing.",
     });
