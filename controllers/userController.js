@@ -41,10 +41,11 @@ function signup(req, res) {
 
             newUser
               .save()
-              .then(() => {
+              .then((newUserData) => {
                 return res.status(201).send({
                   message: "Successfully created user",
                   token: result,
+                  data: newUserData,
                 });
               })
               .catch(() => {
