@@ -7,13 +7,19 @@ const {
   deleteBlog,
   newBlog,
 } = require("../controllers/blogController");
+const { verifyUsingJWT } = require("../middleware/jwt");
 const upload = require("../middleware/multer");
 const route = express.Router();
 
 route.get("/getAllBlogs", getAllBlogs);
-route.delete("/deleteBlog", deleteBlog);
-route.get("/userSpecificBlogs", userSpecificBlogs);
+route.delete("/deleteBlog", verifyUsingJWT, deleteBlog);
+route.get("/userSpecificBlogs", verifyUsingJWT, userSpecificBlogs);
 route.get("/fetchSingleBlog", fetchSingleBlog);
-route.put("/updateBlog", upload.single("blogImage"), updateBlog);
-route.post("/newBlog", upload.single("blogImage"), newBlog);
+route.put(
+  "/updateBlog",
+  verifyUsingJWT,
+  upload.single("blogImage"),
+  updateBlog
+);
+route.post("/newBlog", verifyUsingJWT, upload.single("blogImage"), newBlog);
 module.exports = route;
